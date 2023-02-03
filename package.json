@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "http-server": "^14.1.1"
+  },
+  "scripts": {
+    "dev-local": "http-server ./Builds/Local",
+    "dev-production": "http-server ./Builds/Production"
+  }
+}
