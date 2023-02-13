@@ -21,10 +21,9 @@ public class GameStateManager : MonoBehaviour
     public const float CREATE_ROOM_INTERVAL_RESET = 10;
 
     public GameObject room;
-    public List<GameObject> spawnedRooms;
-
     public GameObject task;
-    public List<GameObject> spawnedTasks;
+
+    public static List<PlayerController> players;
 
 
 
@@ -33,7 +32,7 @@ public class GameStateManager : MonoBehaviour
     {
         tasks = new List<Task>();
         rooms = new List<Room>();
-        spawnedRooms = new List<GameObject>();
+        players = new List<PlayerController>();
 
         gameTime = 0;
         createTaskClock = 0;

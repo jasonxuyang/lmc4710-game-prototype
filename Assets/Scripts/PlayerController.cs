@@ -7,6 +7,8 @@ public class PlayerController : NetworkBehaviour
     // Attributes
     public float speed = 20.0f;
     private Vector2 movement = Vector2.zero;
+    public float globalX;
+    public float globalY;
 
     // Components
     private Rigidbody2D rb;
@@ -23,6 +25,10 @@ public class PlayerController : NetworkBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponentInChildren(typeof(Animator)) as Animator;
+        this.globalX = this.transform.position.x;
+        this.globalY = this.transform.position.y;
+        this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y, GameStateManager.PLAYER_Z_INDEX);
+        GameStateManager.players.Add(this);
     }
 
     // Physics Update
@@ -30,7 +36,8 @@ public class PlayerController : NetworkBehaviour
     {
         float inputX = Input.GetAxis("Horizontal");
         float inputY = Input.GetAxis("Vertical");
-
+        this.globalX = this.transform.position.x;
+        this.globalY = this.transform.position.y;
         movement = Vector2.zero;
 
         // Uniform Movement

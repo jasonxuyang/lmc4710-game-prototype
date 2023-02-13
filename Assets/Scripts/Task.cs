@@ -2,13 +2,12 @@ using System;
 
 public class Task
 {
-    private const int COMPLETION_TIME = 5;
-    private const int INTERACTION_RANGE = 10;
+    public const float COMPLETION_TIME = 3;
+    public const int INTERACTION_RANGE = 2;
   
 
-    public int completionTime;
     public bool isComplete;
-    public int interactingClock;
+    public float interactingClock;
     public int interactionRange;
     public bool isInteracting;
     public Room room;
@@ -24,7 +23,6 @@ public class Task
         this.y = y;
         this.globalX = room.globalX + x;
         this.globalY = room.globalY + y;
-        this.completionTime = COMPLETION_TIME;
         this.isComplete = false;
         this.interactingClock = 0;
         this.interactionRange = INTERACTION_RANGE;

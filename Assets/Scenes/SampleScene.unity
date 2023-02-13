@@ -156,9 +156,7 @@ MonoBehaviour:
   gameTime: 0
   createRoomClock: 0
   room: {fileID: 1973327504019691208, guid: c8e2261bd1f234783a6ffd00d10d4d16, type: 3}
-  spawnedRooms: []
   task: {fileID: 1245511719183415492, guid: ce926a151413b46f7983ff802c7ba1b4, type: 3}
-  spawnedTasks: []
 --- !u!4 &215798330
 Transform:
   m_ObjectHideFlags: 0
@@ -407,7 +405,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 754296097}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -474,6 +472,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 50
+  globalX: 0
+  globalY: 0
 --- !u!212 &754296103
 SpriteRenderer:
   m_ObjectHideFlags: 0
