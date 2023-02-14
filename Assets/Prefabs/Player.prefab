@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4144860791762026619}
   - component: {fileID: 8542652609030281446}
   - component: {fileID: 3857486319388547378}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Sprite Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -108,7 +108,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: caa8afd9c75ce094992807cfc3e19e92, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -136,7 +136,7 @@ GameObject:
   - component: {fileID: 2338008699467299998}
   - component: {fileID: 2458760607749303963}
   - component: {fileID: 2678391418375351009}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -179,7 +179,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 1
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!61 &291298693104077964
 BoxCollider2D:
   m_ObjectHideFlags: 0

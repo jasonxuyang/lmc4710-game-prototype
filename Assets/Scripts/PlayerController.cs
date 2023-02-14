@@ -49,15 +49,8 @@ public class PlayerController : NetworkBehaviour
         }
 
         rb.velocity = movement;
-
-        RenderMovement(inputX, inputY);
-    }
-
-
-    // Late Update (Camera movement)
-    private void LateUpdate()
-    {
         PlayerCamera.getInstance().FollowPlayer(transform);
+        RenderMovement(inputX, inputY);
     }
 
 
