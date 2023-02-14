@@ -12,8 +12,7 @@ public class FloorGenerator : MonoBehaviour
 
     private void Start()
     {
-        makeRoom(new Vector2Int(0, 0), 5, 5);
-        makeRoom(new Vector2Int(0, 5), 2, 6);
+        
     }
 
     // Update is called once per frame
@@ -22,7 +21,7 @@ public class FloorGenerator : MonoBehaviour
         
     }
 
-    private void makeRoom(Vector2Int origin, int width, int height)
+    public void makeRoom(Vector2Int origin, int width, int height)
     {
         // North/South Walls
         for (int i = -width + origin.x; i < width + origin.x; i++)

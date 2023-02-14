@@ -11,17 +11,19 @@ public class GameStateManager : MonoBehaviour
 
     public const float CREATE_TASK_INTERVAL_RESET = 5;
     public float createTaskClock;
-    public static List<Task> tasks;
+    public static HashSet<Task> tasks;
+    public static Task lastAddedTask;
     public float gameTime;
 
-    public const int ROOM_WIDTH = 16;
-    public const int ROOM_HEIGHT = 16;
+    public const int ROOM_WIDTH = 8;
+    public const int ROOM_HEIGHT = 8;
     public static List<Room> rooms;
     public float createRoomClock;
     public const float CREATE_ROOM_INTERVAL_RESET = 10;
 
     public GameObject room;
     public GameObject task;
+    public GameObject mapManager;
 
     public static List<PlayerController> players;
 
@@ -30,7 +32,7 @@ public class GameStateManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        tasks = new List<Task>();
+        tasks = new HashSet<Task>();
         rooms = new List<Room>();
         players = new List<PlayerController>();
 
@@ -72,6 +74,7 @@ public class GameStateManager : MonoBehaviour
         int randomX = Random.Range(-ROOM_WIDTH / 2, ROOM_WIDTH / 2);
         int randomY = Random.Range(-ROOM_HEIGHT / 2, ROOM_HEIGHT / 2);
         Task newTask = new Task(randomRoom, randomX, randomY);
+        lastAddedTask = newTask;
         tasks.Add(newTask);
         spawnTask(newTask);
 
@@ -95,9 +98,13 @@ public class GameStateManager : MonoBehaviour
 
             // add child room
             Room childRoom = new Room(parentRoom, randomDirection);
+
+            // build room on map
             rooms.Add(childRoom);
             spawnRoom(childRoom);
         }
+        Room newRoom = rooms[rooms.Count - 1];
+        mapManager.GetComponent<FloorGenerator>().makeRoom(new Vector2Int(newRoom.globalX, newRoom.globalY), (ROOM_WIDTH / 2) + 1, (ROOM_HEIGHT / 2) + 1);
     }
 
 

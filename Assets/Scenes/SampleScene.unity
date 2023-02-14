@@ -157,6 +157,7 @@ MonoBehaviour:
   createRoomClock: 0
   room: {fileID: 1973327504019691208, guid: c8e2261bd1f234783a6ffd00d10d4d16, type: 3}
   task: {fileID: 1245511719183415492, guid: ce926a151413b46f7983ff802c7ba1b4, type: 3}
+  mapManager: {fileID: 1475084988}
 --- !u!4 &215798330
 Transform:
   m_ObjectHideFlags: 0
@@ -445,7 +446,7 @@ MonoBehaviour:
   m_MaxConnectAttempts: 60
   m_DisconnectTimeoutMS: 30000
   ConnectionData:
-    Address: 127.0.0.1
+    Address: 128.61.23.79
     Port: 7777
     ServerListenAddress: 
   DebugSimulator:
@@ -1074,7 +1075,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1475084989
 MonoBehaviour:
   m_ObjectHideFlags: 0

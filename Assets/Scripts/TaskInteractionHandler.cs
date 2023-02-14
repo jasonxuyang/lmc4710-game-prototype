@@ -11,7 +11,7 @@ public class TaskInteractionHandler : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        this.task = GameStateManager.tasks[GameStateManager.tasks.Count - 1];
+        this.task = GameStateManager.lastAddedTask;
         this.spriteRenderer = this.GetComponent<SpriteRenderer>();
         this.isInteractable = false;
     }
@@ -42,7 +42,8 @@ public class TaskInteractionHandler : MonoBehaviour
             if (this.task.interactingClock >= Task.COMPLETION_TIME)
             {
                 this.task.isComplete = true;
-                spriteRenderer.color = new Color(0, 1, 0, 1);
+                GameStateManager.tasks.Remove(this.task);
+                Object.Destroy(this.gameObject);
             }
             this.task.interactingClock += Time.deltaTime;
         }
