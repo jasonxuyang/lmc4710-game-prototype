@@ -1,26 +1,28 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using System;
 
 public class Task
 {
-    private const int COMPLETION_TIME = 5;
-    private const int INTERACTION_RANGE = 10;
+    public const float COMPLETION_TIME = 3;
+    public const int INTERACTION_RANGE = 2;
   
 
-    public int completionTime;
     public bool isComplete;
-    public int interactingClock;
+    public float interactingClock;
     public int interactionRange;
     public bool isInteracting;
+    public Room room;
     public int x;
     public int y;
+    public int globalX;
+    public int globalY;
 
-    public Task(int x, int y)
+    public Task(Room room, int x, int y)
     {
+        this.room = room;
         this.x = x;
         this.y = y;
-        this.completionTime = COMPLETION_TIME;
+        this.globalX = room.globalX + x;
+        this.globalY = room.globalY + y;
         this.isComplete = false;
         this.interactingClock = 0;
         this.interactionRange = INTERACTION_RANGE;
