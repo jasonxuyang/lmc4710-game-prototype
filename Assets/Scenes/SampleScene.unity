@@ -446,7 +446,7 @@ MonoBehaviour:
   m_MaxConnectAttempts: 60
   m_DisconnectTimeoutMS: 30000
   ConnectionData:
-    Address: 128.61.23.79
+    Address: 127.0.0.1
     Port: 7777
     ServerListenAddress: 
   DebugSimulator:
