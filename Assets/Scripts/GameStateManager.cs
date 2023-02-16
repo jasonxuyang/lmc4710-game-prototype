@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
+using Unity.Netcode.Transports.UTP;
 
 public class GameStateManager : MonoBehaviour
 {
@@ -40,6 +41,7 @@ public class GameStateManager : MonoBehaviour
         createTaskClock = 0;
         createRoomClock = 0;
         Debug.Log("Game start");
+        NetworkManager.Singleton.GetComponent<UnityTransport>().SetConnectionData("127.0.0.1", (ushort)12345, "0.0.0.0");
     }
 
     // Update is called once per frame
