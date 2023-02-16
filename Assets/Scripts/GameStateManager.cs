@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
+using System.Net;
+using System.Linq;
 
 public class GameStateManager : MonoBehaviour
 {
@@ -41,7 +43,26 @@ public class GameStateManager : MonoBehaviour
         createTaskClock = 0;
         createRoomClock = 0;
         Debug.Log("Game start");
-        NetworkManager.Singleton.GetComponent<UnityTransport>().SetConnectionData("127.0.0.1", (ushort)12345, "0.0.0.0");
+        NetworkManager.Singleton.GetComponent<UnityTransport>().SetConnectionData("143.215.84.16", (ushort)12345, "0.0.0.0");
+
+        try
+        {
+            var addresses = Dns.GetHostEntry(Dns.GetHostName())
+                        .AddressList
+                        .Where(x => x.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
+                        .Select(x => x.ToString())
+                        .ToArray();
+            string ip = "";
+            foreach (string address in addresses)
+            {
+                ip = address;
+            }
+            NetworkManager.Singleton.GetComponent<UnityTransport>().SetConnectionData(ip, (ushort)12345, "0.0.0.0");
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogException(e);
+        }
     }
 
     // Update is called once per frame
