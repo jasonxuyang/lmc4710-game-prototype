@@ -31,6 +31,8 @@ public class GameStateManager : MonoBehaviour
 
     public static List<PlayerController> players;
 
+    public static int score = 0;
+
 
 
     // Start is called before the first frame update
@@ -71,14 +73,15 @@ public class GameStateManager : MonoBehaviour
                 generateNewTask();
                 createTaskClock = 0;
             }
-            if (createRoomClock >= CREATE_ROOM_INTERVAL_RESET)
+            if (score >= 5/*createRoomClock >= CREATE_ROOM_INTERVAL_RESET*/)
             {
                 generateNewRoom();
                 createRoomClock = 0;
+                score = 0;
             }
             gameTime += Time.deltaTime;
             createTaskClock += Time.deltaTime;
-            createRoomClock += Time.deltaTime;
+            //createRoomClock += Time.deltaTime;
         }
     }
 

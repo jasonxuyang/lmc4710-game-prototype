@@ -43,6 +43,7 @@ public class TaskInteractionHandler : MonoBehaviour
             {
                 this.task.isComplete = true;
                 GameStateManager.tasks.Remove(this.task);
+                GameStateManager.score++;
                 Object.Destroy(this.gameObject);
             }
             this.task.interactingClock += Time.deltaTime;
