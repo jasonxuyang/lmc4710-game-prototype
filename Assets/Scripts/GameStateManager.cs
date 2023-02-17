@@ -5,6 +5,7 @@ using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
 using System.Net;
 using System.Linq;
+using System.Net.Sockets;
 
 public class GameStateManager : MonoBehaviour
 {
@@ -45,24 +46,15 @@ public class GameStateManager : MonoBehaviour
         Debug.Log("Game start");
         NetworkManager.Singleton.GetComponent<UnityTransport>().SetConnectionData("143.215.84.16", (ushort)12345, "0.0.0.0");
 
-        try
-        {
-            var addresses = Dns.GetHostEntry(Dns.GetHostName())
-                        .AddressList
-                        .Where(x => x.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
-                        .Select(x => x.ToString())
-                        .ToArray();
-            string ip = "";
-            foreach (string address in addresses)
-            {
-                ip = address;
-            }
-            NetworkManager.Singleton.GetComponent<UnityTransport>().SetConnectionData(ip, (ushort)12345, "0.0.0.0");
-        }
-        catch (System.Exception e)
-        {
-            Debug.LogException(e);
-        }
+        //var host = Dns.GetHostEntry(Dns.GetHostName());
+        //foreach (var ip in host.AddressList)
+        //{
+        //    if (ip.AddressFamily == AddressFamily.InterNetwork)
+        //    {
+        //        Debug.Log(ip.ToString());
+        //        NetworkManager.Singleton.GetComponent<UnityTransport>().SetConnectionData(ip.ToString(), (ushort)12345, "0.0.0.0");
+        //    }
+        //}
     }
 
     // Update is called once per frame
