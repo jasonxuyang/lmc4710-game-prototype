@@ -7,7 +7,7 @@ using System.Net;
 using System.Linq;
 using System.Net.Sockets;
 
-public class GameStateManager : MonoBehaviour
+public class GameStateManager : NetworkBehaviour
 {
     public const int PLAYER_Z_INDEX = -2;
     public const int TASK_Z_INDEX = -1;
@@ -46,7 +46,7 @@ public class GameStateManager : MonoBehaviour
         createTaskClock = 0;
         createRoomClock = 0;
         Debug.Log("Game start");
-        NetworkManager.Singleton.GetComponent<UnityTransport>().SetConnectionData("143.215.84.16", (ushort)12345, "0.0.0.0");
+        NetworkManager.Singleton.GetComponent<UnityTransport>().SetConnectionData("127.0.0.1", (ushort)12345, "0.0.0.0"); //"143.215.84.16"
 
         //var host = Dns.GetHostEntry(Dns.GetHostName());
         //foreach (var ip in host.AddressList)
@@ -62,6 +62,8 @@ public class GameStateManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!IsOwner) return;
+
         if (NetworkManager.Singleton.IsListening)
         {
             if (rooms.Count == 0)
@@ -70,7 +72,7 @@ public class GameStateManager : MonoBehaviour
             }
             if (createTaskClock >= CREATE_TASK_INTERVAL_RESET)
             {
-                generateNewTask();
+                generateNewTaskServerRpc();
                 createTaskClock = 0;
             }
             if (score >= 5/*createRoomClock >= CREATE_ROOM_INTERVAL_RESET*/)
@@ -86,16 +88,16 @@ public class GameStateManager : MonoBehaviour
     }
 
     // Generates a new task with a random position
-    void generateNewTask()
+    [ServerRpc]
+    void generateNewTaskServerRpc()
     {
-        Room randomRoom = rooms[Random.Range(0, rooms.Count)];
+        Room randomRoom = rooms[Random.Range(0, rooms.Count)]; // make network variable (or at least try)
         int randomX = Random.Range(-ROOM_WIDTH / 2, ROOM_WIDTH / 2);
         int randomY = Random.Range(-ROOM_HEIGHT / 2, ROOM_HEIGHT / 2);
         Task newTask = new Task(randomRoom, randomX, randomY);
-        lastAddedTask = newTask;
-        tasks.Add(newTask);
-        spawnTask(newTask);
-
+        lastAddedTask = newTask; // make network variable
+        tasks.Add(newTask); // make network vairable
+        spawnTaskClientRpc(newTask.globalX, newTask.globalY);
     }
 
     // Adds a room to the map
@@ -105,7 +107,8 @@ public class GameStateManager : MonoBehaviour
             Room startRoom = new Room();
             rooms.Add(startRoom);
             spawnRoom(startRoom);
-        } else
+        } 
+        else
         {
             // pick a random room
             Room parentRoom = rooms[Random.Range(0, rooms.Count)];
@@ -134,11 +137,13 @@ public class GameStateManager : MonoBehaviour
         Debug.Log("Spawned new room");
     }
 
-    void spawnTask(Task newTask)
+    // Spawn same task to all clients
+    [ClientRpc] 
+    void spawnTaskClientRpc(int globalX, int globalY)
     {
         GameObject taskToSpawn = Instantiate(task);
         taskToSpawn.name = "Task " + tasks.Count;
-        taskToSpawn.transform.position = new Vector3(newTask.globalX, newTask.globalY, TASK_Z_INDEX);
+        taskToSpawn.transform.position = new Vector3(globalX, globalY, TASK_Z_INDEX);
         Debug.Log("Spawned new room");
     }
 

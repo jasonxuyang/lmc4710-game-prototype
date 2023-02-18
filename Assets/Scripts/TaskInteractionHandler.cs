@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
+using Unity.Netcode;
 using System.Collections;
+using Unity.Collections;
 
-public class TaskInteractionHandler : MonoBehaviour
+public class TaskInteractionHandler : NetworkBehaviour
 {
     SpriteRenderer spriteRenderer;
     bool isInteractable;
@@ -26,7 +28,8 @@ public class TaskInteractionHandler : MonoBehaviour
                 if (this.IsWithinInteractionRange(player)) {
                     this.isInteractable = true;
                     spriteRenderer.color = new Color(1, 0, 0, 0.5f);
-                } else
+                } 
+                else
                 {
                     this.isInteractable = false;
                     spriteRenderer.color = new Color(1, 0, 0, 1);
@@ -43,12 +46,16 @@ public class TaskInteractionHandler : MonoBehaviour
             {
                 this.task.isComplete = true;
                 GameStateManager.tasks.Remove(this.task);
+
+                // Destroy Task across clients
                 GameStateManager.score++;
-                Object.Destroy(this.gameObject);
+                Destroy(this.gameObject);
+                //CompleteTaskServerRpc(this.name);
+                //Debug.Log("HERE");
             }
             this.task.interactingClock += Time.deltaTime;
         }
-        Debug.Log(this.task.interactingClock);
+        //Debug.Log(this.task.interactingClock);
     }
 
     private void OnMouseDown()
@@ -81,4 +88,20 @@ public class TaskInteractionHandler : MonoBehaviour
     {
         return Vector2.Distance(new Vector2(player.globalX, player.globalY), new Vector2(this.task.globalX, this.task.globalY)) < Task.INTERACTION_RANGE;
     }
+
+
+    //[ServerRpc(RequireOwnership = false)]
+    //public void CompleteTaskServerRpc(FixedString32Bytes name)
+    //{
+    //    CompleteTaskClientRpc(name);
+    //    Debug.Log(name);
+    //}
+
+    //[ClientRpc]
+    //public void CompleteTaskClientRpc(FixedString32Bytes name)
+    //{
+    //    Debug.Log(name.ToString());
+    //    GameStateManager.score++;
+    //    Destroy(GameObject.Find(name.ToString()));
+    //}
 }
