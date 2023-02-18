@@ -7,7 +7,7 @@ using System.Net;
 using System.Linq;
 using System.Net.Sockets;
 
-public class GameStateManager : NetworkBehaviour
+public class GameStateManager : MonoBehaviour
 {
     public const int PLAYER_Z_INDEX = -2;
     public const int TASK_Z_INDEX = -1;
@@ -62,7 +62,7 @@ public class GameStateManager : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!IsOwner) return;
+        //if (!IsOwner) return;
 
         if (NetworkManager.Singleton.IsListening)
         {
@@ -72,7 +72,7 @@ public class GameStateManager : NetworkBehaviour
             }
             if (createTaskClock >= CREATE_TASK_INTERVAL_RESET)
             {
-                generateNewTaskServerRpc();
+                generateNewTask();
                 createTaskClock = 0;
             }
             if (score >= 5/*createRoomClock >= CREATE_ROOM_INTERVAL_RESET*/)
@@ -88,8 +88,7 @@ public class GameStateManager : NetworkBehaviour
     }
 
     // Generates a new task with a random position
-    [ServerRpc]
-    void generateNewTaskServerRpc()
+    void generateNewTask()
     {
         Room randomRoom = rooms[Random.Range(0, rooms.Count)]; // make network variable (or at least try)
         int randomX = Random.Range(-ROOM_WIDTH / 2, ROOM_WIDTH / 2);
@@ -97,7 +96,7 @@ public class GameStateManager : NetworkBehaviour
         Task newTask = new Task(randomRoom, randomX, randomY);
         lastAddedTask = newTask; // make network variable
         tasks.Add(newTask); // make network vairable
-        spawnTaskClientRpc(newTask.globalX, newTask.globalY);
+        spawnTask(newTask);
     }
 
     // Adds a room to the map
@@ -138,12 +137,11 @@ public class GameStateManager : NetworkBehaviour
     }
 
     // Spawn same task to all clients
-    [ClientRpc] 
-    void spawnTaskClientRpc(int globalX, int globalY)
+    void spawnTask(Task newTask)
     {
         GameObject taskToSpawn = Instantiate(task);
         taskToSpawn.name = "Task " + tasks.Count;
-        taskToSpawn.transform.position = new Vector3(globalX, globalY, TASK_Z_INDEX);
+        taskToSpawn.transform.position = new Vector3(newTask.globalX, newTask.globalY, TASK_Z_INDEX);
         Debug.Log("Spawned new room");
     }
 

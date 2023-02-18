@@ -3,7 +3,7 @@ using Unity.Netcode;
 using System.Collections;
 using Unity.Collections;
 
-public class TaskInteractionHandler : NetworkBehaviour
+public class TaskInteractionHandler : MonoBehaviour
 {
     SpriteRenderer spriteRenderer;
     bool isInteractable;
